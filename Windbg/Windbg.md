@@ -445,7 +445,11 @@ windbg可以通过命令生成mini-Dump文件：
 # Windbg实用手册
 https://blog.csdn.net/aoebug/article/details/51997221
 
-#  MiniDumpWriteDump API DEMO
+#  windbg dump demo 
+http://www.debuginfo.com/examples/effmdmpexamples.html
+Demo可以下载到
+
+## MiniDumpWriteDump API DEMO
 http://www.debuginfo.com/examples/src/effminidumps/MiniDump.cpp
 ```
 ///////////////////////////////////////////////////////////////////////////////
