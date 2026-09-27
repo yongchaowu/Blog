@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+<title>WebService学习总结(四)——调用第三方提供的webService服务 - 孤傲苍狼 - 博客园</title>
+<meta property="og:description" content="互联网上面有很多的免费webService服务，我们可以调用这些免费的WebService服务，将一些其他网站的内容信息集成到我们的Web应用中显示，下面就以获取天气预报数据和查询国内手机号码归属地为">
+<link type="text/css" rel="stylesheet" href="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-SimpleClear.css">
+<link type="text/css" rel="stylesheet" href="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/133816.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-SimpleClear-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/xdp-gacl/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/xdp-gacl/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/xdp-gacl/wlwmanifest.xml">
+<script src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/osd.js"></script><script src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/amp4ads-host-v0.js"></script><script src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_rendering_201812061.js"></script><script async="" src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script type="text/javascript" src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/encoder.js"></script><script src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+<script type="text/javascript">var currentBlogApp = 'xdp-gacl', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+<link rel="preload" href="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script><script src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_201812061.js" async=""></script></head>
+<body>
+<a name="top"></a>
+<div id="page_begin_html"><!-- Baidu Button BEGIN -->
+<!--<div style="display: none" id="__document_write_ajax_div-1"></div><script type="text/javascript" id="bdshare_js" data="type=slide&amp;img=0&amp;pos=right&amp;uid=6507240" >window['__document_write_ajax_callbacks__']['1']();</script>
+<div style="display: none" id="__document_write_ajax_div-2"></div><script type="text/javascript" id="bdshell_js">window['__document_write_ajax_callbacks__']['2']();</script>
+<div style="display: none" id="__document_write_ajax_div-3"></div><script type="text/javascript">window['__document_write_ajax_callbacks__']['3']();</script>-->
+<!-- Baidu Button END -->
+
+<!--添加博客目录-->
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['6']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['4']();</script>
+
+<!--
+<head>
+
+DIY 博客全文界面的推荐、反对、加关注、返回顶部、快速评论等小功能的集成
+
+<div style="display: none" id="__document_write_ajax_div-5"></div><script type="text/javascript">window['__document_write_ajax_callbacks__']['5']();</script>
+</head>
+--></div><script>load_page_begin_html();</script>
+
+<div id="main">
+<div id="header">
+<h1><a id="Header1_HeaderTitle" href="https://www.cnblogs.com/xdp-gacl/">孤傲苍狼</a></h1>
+<p id="tagline">只为成功找方法，不为失败找借口！</p></div>
+
+<div id="post_detail">
+<div class="post">
+    <h2 class="postTitle"><a id="cb_post_title_url" href="https://www.cnblogs.com/xdp-gacl/p/4260627.html">WebService学习总结(四)——调用第三方提供的webService服务</a></h2>
+    <div class="postText"><div id="cnblogs_post_body" class="blogpost-body"><p>　　互联网上面有很多的免费webService服务，我们可以调用这些免费的WebService服务，将一些其他网站的内容信息集成到我们的Web应用中显示，下面就以获取天气预报数据和查询<strong>国内手机号码归属地</strong>为例进行说明。</p>
+<p>　　气象中心的管理系统将收集的天气信息并将数据暴露出来(通过WebService Server), 而各大站点的应用就去调用它们得到天气信息并以不同的样式去展示(WebService Client).</p>
+<h2 id="blogTitle0">一、&nbsp;调用免费的web service获取天气预报信息</h2>
+<h3 id="blogTitle1">1.1、<strong>找到提供天气预报信息的</strong><strong>Webservice</strong><strong>的网络地址</strong></h3>
+<p>　　<a href="http://webservice.webxml.com.cn/WebServices/WeatherWS.asmx">http://webservice.webxml.com.cn/WebServices/WeatherWS.asmx</a>&nbsp;访问结果如下图所示：</p>
+<p>　　<img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/291803534729397.png" alt=""></p>
+<p>　　找到WebService的wsdl描述，通过URL地址<a href="http://webservice.webxml.com.cn/WebServices/WeatherWS.asmx?wsdl">http://webservice.webxml.com.cn/WebServices/WeatherWS.asmx?wsdl</a>：如下：</p>
+<p>　　<img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/291807011917980.png" alt=""></p>
+<h3 id="blogTitle2">1.2、<strong>客户端编码方式访问第三方提供的webService服务</strong></h3>
+<p>　　1、借助wsimport命令工具自动生成客户端代码</p>
+<p>　　创建一个测试项目，如下：</p>
+<p>　　<img style="border: 1px solid black;" src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/291812178942002.png" alt=""></p>
+<p>　　打开命令行窗口，切换到项目的src目录，执行"<span style="color: #ff0000;">wsimport -keep <a href="http://webservice.webxml.com.cn/WebServices/WeatherWS.asmx?wsdl">http://webservice.webxml.com.cn/WebServices/WeatherWS.asmx?wsdl</a><span style="color: #000000;">"生成客户端代码，如下图所示：</span></span></p>
+<p><span style="color: #ff0000;"><span style="color: #000000;">　　<img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/291816094411874.png" alt=""></span></span></p>
+<p>　　运行结果显示，使用wsimport工具直接生成客户端代码会抛异常, 无法生成客户端代码,&nbsp;只是因为我们要调用的WebService是用.net写的，这个是Java调用net的webservice都有的问题，这个问题的解决办法如下：</p>
+<ol>
+<li>将对应的wsdl文档保存到本地</li>
+</ol>
+<p>　　<img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/291843172539113.gif" alt=""></p>
+<p>　　2、修改wsdl文档的部分内容:<strong>将</strong>&nbsp;<span style="color: #ff0000;"><strong>&lt;s:element ref="s:schema" /&gt;&lt;s:any /&gt;</strong></span>&nbsp;替换成&nbsp;<span style="color: #ff0000;"><strong>&lt;s:any minOccurs="2" maxOccurs="2"/&gt;</strong></span></p>
+<p><span style="color: #ff0000;"><strong>　　<img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/291851362693798.gif" alt=""></strong></span></p>
+<p>　　再次执行wsimport生成代码，这次使用保存在本地的WeatherWS.wsdl文件来进行生成，如下图所示：</p>
+<p><span style="color: #ff0000;"><strong>　　<img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/291833037221243.png" alt=""></strong></span></p>
+<p><span style="color: #000000;">　　从执行结果显示，这一次可以正常生成代码了，刷新一下src目录，就可以看到生成的代码了，如下图所示：</span></p>
+<p><span style="color: #000000;">　　<img style="border: 1px solid black;" src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/291836151125713.png" alt=""></span></p>
+<p>2、借助生成的代码编写请求代码</p>
+<div class="cnblogs_code"><div>按 Ctrl+C 复制代码</div><textarea style="width: 1123px; height: 468px; font-family: Courier New; font-size: 12px; line-height: 1.5;">package me.gacl.ws.client;
+
+import java.util.List;
+
+import cn.com.webxml.ArrayOfString;
+import cn.com.webxml.WeatherWS;
+import cn.com.webxml.WeatherWSSoap;
+
+public class WeatherWSClient {
+
+    public static void main(String[] args) {
+        //创建一个WeatherWS工厂
+        WeatherWS factory = new WeatherWS();
+        //根据工厂创建一个WeatherWSSoap对象
+        WeatherWSSoap weatherWSSoap = factory.getWeatherWSSoap();
+        //调用WebService提供的getWeather方法获取南宁市的天气预报情况
+        ArrayOfString weatherInfo = weatherWSSoap.getWeather("南宁", null);
+        List&lt;String&gt; lstWeatherInfo = weatherInfo.getString();
+        //遍历天气预报信息
+        for (String string : lstWeatherInfo) {
+            System.out.println(string);
+            System.out.println("------------------------");
+        }
+    }
+}</textarea><div>按 Ctrl+C 复制代码</div></div>
+<p>　　访问结果如下：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>广西 南宁
+------------------------
+南宁
+------------------------
+2391
+------------------------
+2015/01/29 19:00:49
+------------------------
+今日天气实况：暂无实况
+------------------------
+空气质量：暂无；紫外线强度：最弱
+------------------------
+太阳镜指数：不需要。白天光线弱不需要佩戴太阳镜。
+穿衣指数：较舒适。建议穿薄外套或牛仔裤等服装。
+旅游指数：适宜。温度适宜，可尽情享受大自然风光。
+运动指数：较适宜。较适宜进行各种户内外运动。
+洗车指数：不宜。有雨，雨水和泥水会弄脏爱车。
+化妆指数：保湿。请选用中性保湿型霜类化妆品。
+感冒指数：较易发。天较凉，增加衣服，注意防护。
+空气污染指数：暂无。
+紫外线指数：最弱。辐射弱，涂擦SPF8-12防晒护肤品。
+舒适度指数：舒适。白天不冷不热，风力不大。
+
+------------------------
+1月29日 多云
+------------------------
+11℃/15℃
+------------------------
+东北风微风
+------------------------
+1.gif
+------------------------
+1.gif
+------------------------
+1月30日 小雨转阴
+------------------------
+10℃/15℃
+------------------------
+东北风微风
+------------------------
+7.gif
+------------------------
+2.gif
+------------------------
+1月31日 多云
+------------------------
+11℃/13℃
+------------------------
+东北风微风
+------------------------
+1.gif
+------------------------
+1.gif
+------------------------
+2月1日 多云
+------------------------
+12℃/17℃
+------------------------
+东北风微风
+------------------------
+1.gif
+------------------------
+1.gif
+------------------------
+2月2日 阴转多云
+------------------------
+13℃/18℃
+------------------------
+东北风微风
+------------------------
+2.gif
+------------------------
+1.gif
+------------------------</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>　　这样，我们通过生成的Client代码调用了第三方提供的webService服务获取到了南宁市的天气预报信息。</p>
+<h2 id="blogTitle3">二、&nbsp;调用免费的web service查询<strong>国内手机号码归属地</strong></h2>
+<h3 id="blogTitle4">2.1、找到提供服务的Webservice的网络地址</h3>
+<p>　　<a href="http://webservice.webxml.com.cn/WebServices/MobileCodeWS.asmx">http://webservice.webxml.com.cn/WebServices/MobileCodeWS.asmx</a>&nbsp;如下所示：</p>
+<p>　　<img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/291921125037348.png" alt=""></p>
+<p>　　找到WebService的wsdl描述信息，通过URL地址<a href="http://webservice.webxml.com.cn/WebServices/MobileCodeWS.asmx?wsdl">http://webservice.webxml.com.cn/WebServices/MobileCodeWS.asmx?wsdl</a>：如下：</p>
+<p>　　<img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/291925001286789.png" alt=""></p>
+<h3 id="blogTitle5">2.2、编写客户端访问调用WebService服务</h3>
+<p>1、创建客户端项目</p>
+<p>　　<img style="border: 1px solid black;" src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/291928306282032.png" alt=""></p>
+<p>2、根据WebService的wsdl描述生成客户端代码</p>
+<p>　　打开命令行窗口，切换到Phone_Client的src目录，执行wsimport -keep <a href="http://webservice.webxml.com.cn/WebServices/MobileCodeWS.asmx?wsdl">http://webservice.webxml.com.cn/WebServices/MobileCodeWS.asmx?wsdl</a>&nbsp;如下图所示：</p>
+<p>　　<img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/291933009569318.png" alt=""></p>
+<p>　　这次可以直接使用wsdl生成代码，不再需要将wsdl文件下载到本地进行修改了，这个WebService应该不是使用.net写的，生成的代码如下：</p>
+<p>　　<img style="border: 1px solid black;" src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/291935288626070.png" alt=""></p>
+<p>　　3、借助生成的代码编写请求代码</p>
+<div class="cnblogs_code"><div>按 Ctrl+C 复制代码</div><textarea style="width: 1123px; height: 334.4px; font-family: Courier New; font-size: 12px; line-height: 1.5;">package me.gacl.ws.client;
+
+import cn.com.webxml.MobileCodeWS;
+import cn.com.webxml.MobileCodeWSSoap;
+
+public class PhoneWsClient {
+
+    public static void main(String[] args) {
+        //创建一个MobileCodeWS工厂
+        MobileCodeWS factory = new MobileCodeWS();
+        //根据工厂创建一个MobileCodeWSSoap对象
+        MobileCodeWSSoap mobileCodeWSSoap = factory.getMobileCodeWSSoap();
+        ////调用WebService提供的getMobileCodeInfo方法查询手机号码的归属地
+        String searchResult = mobileCodeWSSoap.getMobileCodeInfo("15177196635", null);
+        System.out.println(searchResult);
+    }
+}</textarea><div>按 Ctrl+C 复制代码</div></div>
+<p>　　运行结果如下：<br>　　<img style="border: 1px solid black;" src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/291943526446545.png" alt=""></p>
+<p>　　这样我们调用第三方提供的WebService服务成功查询到了手机号码的归宿地。</p>
+<p>　　以上就是如何调用第三方WebService的相关内容。</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/xdp-gacl/category/629559.html" target="_blank">WebService学习总结</a></div>
+<div id="EntryTag">标签: <a href="https://www.cnblogs.com/xdp-gacl/tag/WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">WebService学习总结</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(4260627,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('f1774468-815f-e011-a53f-842b2b196315');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/xdp-gacl/" target="_blank"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20160221223904.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/xdp-gacl/">孤傲苍狼</a><br>
+            <a href="http://home.cnblogs.com/u/xdp-gacl/followees">关注 - 92</a><br>
+            <a href="http://home.cnblogs.com/u/xdp-gacl/followers">粉丝 - 16839</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('f1774468-815f-e011-a53f-842b2b196315');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(4260627,'Digg')">
+        <span class="diggnum" id="digg_count">9</span>
+    </div>
+    <div class="buryit" onclick="votePost(4260627,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/xdp-gacl/p/4259481.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/xdp-gacl/p/4259481.html" title="发布于2015-01-29 17:39">WebService学习总结(三)——使用JDK开发WebService</a><br><a href="https://www.cnblogs.com/xdp-gacl/p/4261895.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/xdp-gacl/p/4261895.html" title="发布于2015-01-30 17:44">MyBatis学习总结(一)——MyBatis快速入门</a><br></div>
+</div>
+
+</div>
+    <p class="postfoot">posted on <span id="post-date">2015-01-29 19:49</span> <a href="https://www.cnblogs.com/xdp-gacl/">孤傲苍狼</a> 阅读(<span id="post_view_count">61050</span>) 评论(<span id="post_comment_count">17</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=4260627" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(4260627);return false;">收藏</a></p>
+</div>
+<script type="text/javascript">var allowComments=true,cb_blogId=133816,cb_entryId=4260627,cb_blogApp=currentBlogApp,cb_blogUserGuid='f1774468-815f-e011-a53f-842b2b196315',cb_entryCreatedDate='2015/1/29 19:49:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<a name="评论"></a>
+<div id="comments">
+<h3>评论</h3>
+	
+	
+			<h4>
+				<a href="#3120243" class="layer">#1楼</a><a name="3120243" id="comment_anchor_3120243"></a>
+					<span>
+						 <span class="comment_date">2015-01-30 23:43</span>
+					</span>
+				<a id="a_comment_author_3120243" href="https://www.cnblogs.com/andong2015/" target="_blank">巅峰寂寞</a> <a href="http://msg.cnblogs.com/send/%E5%B7%85%E5%B3%B0%E5%AF%82%E5%AF%9E" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</h4>
+			<p>
+				</p><div id="comment_body_3120243" class="blog_comment_body"><div class="list"><table class="out" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="icontd" valign="bottom" align="right"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131202131125.png" width="70px" height="57px"></td><td class="q" valign="bottom" align="left"><table style="" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> <tr><td class="left"></td> <td class="conmts" align="left"><p>学习了。楼主换系统了啊</p> </td> <td class="right"></td></tr> <tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> </tbody></table></td> </tr> </tbody></table> </div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3120243,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3120243,'Bury',this)">反对(0)</a></div>
+				&nbsp;&nbsp;<span class="comment_actions"></span>
+			<p></p>
+		
+			<h4>
+				<a href="#3184498" class="layer">#2楼</a><a name="3184498" id="comment_anchor_3184498"></a>
+					<span>
+						 <span class="comment_date">2015-05-15 09:08</span>
+					</span>
+				<a id="a_comment_author_3184498" href="https://www.cnblogs.com/zeroones/" target="_blank">zeroonec</a> <a href="http://msg.cnblogs.com/send/zeroonec" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</h4>
+			<p>
+				</p><div id="comment_body_3184498" class="blog_comment_body"><div class="list"><table class="out" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="icontd" valign="bottom" align="right"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131202131125.png" width="70px" height="57px"></td><td class="q" valign="bottom" align="left"><table style="" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> <tr><td class="left"></td> <td class="conmts" align="left"><p>学习了，之前使用java代码就不行了，说是数据接口对不上，这个非常好，直接根据城市取数据。 谢谢博主了。找到一篇好文章不容易。</p> </td> <td class="right"></td></tr> <tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> </tbody></table></td> </tr> </tbody></table> </div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3184498,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3184498,'Bury',this)">反对(0)</a></div><span id="comment_3184498_avatar" style="display:none;">http://pic.cnblogs.com/face/645094/20180119151207.png</span>
+				&nbsp;&nbsp;<span class="comment_actions"></span>
+			<p></p>
+		
+			<h4>
+				<a href="#3244305" class="layer">#3楼</a><a name="3244305" id="comment_anchor_3244305"></a>
+					<span>
+						 <span class="comment_date">2015-08-09 13:45</span>
+					</span>
+				<a id="a_comment_author_3244305" href="https://www.cnblogs.com/onfly/" target="_blank">Fainer</a> <a href="http://msg.cnblogs.com/send/Fainer" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</h4>
+			<p>
+				</p><div id="comment_body_3244305" class="blog_comment_body"><div class="list"><table class="out" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="icontd" valign="bottom" align="right"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131202131125.png" width="70px" height="57px"></td><td class="q" valign="bottom" align="left"><table style="" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> <tr><td class="left"></td> <td class="conmts" align="left"><p>好人啊，楼主，多谢啊</p> </td> <td class="right"></td></tr> <tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> </tbody></table></td> </tr> </tbody></table> </div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3244305,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3244305,'Bury',this)">反对(0)</a></div><span id="comment_3244305_avatar" style="display:none;">http://pic.cnblogs.com/face/713890/20150118121024.png</span>
+				&nbsp;&nbsp;<span class="comment_actions"></span>
+			<p></p>
+		
+			<h4>
+				<a href="#3338914" class="layer">#4楼</a><a name="3338914" id="comment_anchor_3338914"></a>
+					<span>
+						 <span class="comment_date">2015-12-31 15:03</span>
+					</span>
+				<a id="a_comment_author_3338914" href="http://home.cnblogs.com/u/870925/" target="_blank">zhangwt1</a> <a href="http://msg.cnblogs.com/send/zhangwt1" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</h4>
+			<p>
+				</p><div id="comment_body_3338914" class="blog_comment_body"><div class="list"><table class="out" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="icontd" valign="bottom" align="right"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131202131125.png" width="70px" height="57px"></td><td class="q" valign="bottom" align="left"><table style="" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> <tr><td class="left"></td> <td class="conmts" align="left"><p>博主能不能提供一些关于springMVC相关的资料?</p> </td> <td class="right"></td></tr> <tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> </tbody></table></td> </tr> </tbody></table> </div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3338914,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3338914,'Bury',this)">反对(0)</a></div>
+				&nbsp;&nbsp;<span class="comment_actions"></span>
+			<p></p>
+		
+			<h4>
+				<a href="#3343258" class="layer">#5楼</a><a name="3343258" id="comment_anchor_3343258"></a>
+					<span>
+						 <span class="comment_date">2016-01-07 17:16</span>
+					</span>
+				<a id="a_comment_author_3343258" href="http://home.cnblogs.com/u/875709/" target="_blank">fengjianyao</a> <a href="http://msg.cnblogs.com/send/fengjianyao" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</h4>
+			<p>
+				</p><div id="comment_body_3343258" class="blog_comment_body"><div class="list"><table class="out" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="icontd" valign="bottom" align="right"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131202131125.png" width="70px" height="57px"></td><td class="q" valign="bottom" align="left"><table style="" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> <tr><td class="left"></td> <td class="conmts" align="left"><p>楼主，那两个免费的wsdl都访问不了了么</p> </td> <td class="right"></td></tr> <tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> </tbody></table></td> </tr> </tbody></table> </div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3343258,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3343258,'Bury',this)">反对(0)</a></div>
+				&nbsp;&nbsp;<span class="comment_actions"></span>
+			<p></p>
+		
+			<h4>
+				<a href="#3357282" class="layer">#6楼</a><a name="3357282" id="comment_anchor_3357282"></a>
+					<span>
+						 <span class="comment_date">2016-01-31 15:11</span>
+					</span>
+				<a id="a_comment_author_3357282" href="http://home.cnblogs.com/u/890903/" target="_blank">素人派</a> <a href="http://msg.cnblogs.com/send/%E7%B4%A0%E4%BA%BA%E6%B4%BE" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</h4>
+			<p>
+				</p><div id="comment_body_3357282" class="blog_comment_body"><div class="list"><table class="out" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="icontd" valign="bottom" align="right"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131202131125.png" width="70px" height="57px"></td><td class="q" valign="bottom" align="left"><table style="" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> <tr><td class="left"></td> <td class="conmts" align="left"><p>学习了<br>surenpi.com</p> </td> <td class="right"></td></tr> <tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> </tbody></table></td> </tr> </tbody></table> </div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3357282,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3357282,'Bury',this)">反对(0)</a></div>
+				&nbsp;&nbsp;<span class="comment_actions"></span>
+			<p></p>
+		
+			<h4>
+				<a href="#3374376" class="layer">#7楼</a><a name="3374376" id="comment_anchor_3374376"></a>
+					<span>
+						 <span class="comment_date">2016-03-08 10:41</span>
+					</span>
+				<a id="a_comment_author_3374376" href="http://home.cnblogs.com/u/897527/" target="_blank">jtj1990</a> <a href="http://msg.cnblogs.com/send/jtj1990" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</h4>
+			<p>
+				</p><div id="comment_body_3374376" class="blog_comment_body"><div class="list"><table class="out" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="icontd" valign="bottom" align="right"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131202131125.png" width="70px" height="57px"></td><td class="q" valign="bottom" align="left"><table style="" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> <tr><td class="left"></td> <td class="conmts" align="left"><p>谢谢楼主。但是公司里貌似上不了两个webservice，有人知道为什么吗</p> </td> <td class="right"></td></tr> <tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> </tbody></table></td> </tr> </tbody></table> </div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3374376,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3374376,'Bury',this)">反对(0)</a></div>
+				&nbsp;&nbsp;<span class="comment_actions"></span>
+			<p></p>
+		
+			<h4>
+				<a href="#3459599" class="layer">#8楼</a><a name="3459599" id="comment_anchor_3459599"></a>
+					<span>
+						 <span class="comment_date">2016-06-27 17:44</span>
+					</span>
+				<a id="a_comment_author_3459599" href="http://home.cnblogs.com/u/979789/" target="_blank">小嫩</a> <a href="http://msg.cnblogs.com/send/%E5%B0%8F%E5%AB%A9" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</h4>
+			<p>
+				</p><div id="comment_body_3459599" class="blog_comment_body"><div class="list"><table class="out" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="icontd" valign="bottom" align="right"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131202131125.png" width="70px" height="57px"></td><td class="q" valign="bottom" align="left"><table style="" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> <tr><td class="left"></td> <td class="conmts" align="left"><p>大神，请教一下！<br>我执行到最后一步，却是报空指针异常了。<br>异常显示：<br>org.apache.cxf.wsdl.service.factory.ReflectionServiceFactoryBean buildServiceFromWSDL<br>信息: Creating Service {<a href="http://webxml.com.cn/" target="_blank">http://WebXml.com.cn/</a>}WeatherWS from WSDL: file:/C:/Users/Administrator/Desktop/WeatherWS.wsdl<br>Exception in thread "main" java.lang.NullPointerException<br>	at lib.integration.WeatherWSClient.main(WeatherWSClient.java:16)<br><br>可以帮我一下吗？</p> </td> <td class="right"></td></tr> <tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> </tbody></table></td> </tr> </tbody></table> </div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3459599,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3459599,'Bury',this)">反对(0)</a></div>
+				&nbsp;&nbsp;<span class="comment_actions"></span>
+			<p></p>
+		
+			<h4>
+				<a href="#3496505" class="layer">#9楼</a><a name="3496505" id="comment_anchor_3496505"></a>
+					<span>
+						 <span class="comment_date">2016-08-25 15:39</span>
+					</span>
+				<a id="a_comment_author_3496505" href="http://home.cnblogs.com/u/991335/" target="_blank">车路士</a> <a href="http://msg.cnblogs.com/send/%E8%BD%A6%E8%B7%AF%E5%A3%AB" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</h4>
+			<p>
+				</p><div id="comment_body_3496505" class="blog_comment_body"><div class="list"><table class="out" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="icontd" valign="bottom" align="right"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131202131125.png" width="70px" height="57px"></td><td class="q" valign="bottom" align="left"><table style="" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> <tr><td class="left"></td> <td class="conmts" align="left"><p>楼主51cto上的视频没看完 哈哈</p> </td> <td class="right"></td></tr> <tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> </tbody></table></td> </tr> </tbody></table> </div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3496505,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3496505,'Bury',this)">反对(0)</a></div>
+				&nbsp;&nbsp;<span class="comment_actions"></span>
+			<p></p>
+		
+			<h4>
+				<a href="#3521529" class="layer">#10楼</a><a name="3521529" id="comment_anchor_3521529"></a>
+					<span>
+						 <span class="comment_date">2016-09-28 15:19</span>
+					</span>
+				<a id="a_comment_author_3521529" href="http://home.cnblogs.com/u/1034040/" target="_blank">Jerry的程序人生</a> <a href="http://msg.cnblogs.com/send/Jerry%E7%9A%84%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</h4>
+			<p>
+				</p><div id="comment_body_3521529" class="blog_comment_body"><div class="list"><table class="out" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="icontd" valign="bottom" align="right"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131202131125.png" width="70px" height="57px"></td><td class="q" valign="bottom" align="left"><table style="" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> <tr><td class="left"></td> <td class="conmts" align="left"><p><a href="#3374376" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3374376);">@</a>
+jtj1990<br>去百度搜索：常用免费的WebService列表。旧能找到了</p> </td> <td class="right"></td></tr> <tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> </tbody></table></td> </tr> </tbody></table> </div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3521529,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3521529,'Bury',this)">反对(0)</a></div>
+				&nbsp;&nbsp;<span class="comment_actions"></span>
+			<p></p>
+		
+			<h4>
+				<a href="#3527877" class="layer">#11楼</a><a name="3527877" id="comment_anchor_3527877"></a>
+					<span>
+						 <span class="comment_date">2016-10-11 10:04</span>
+					</span>
+				<a id="a_comment_author_3527877" href="https://www.cnblogs.com/jianliang-Wu/" target="_blank">吴建良</a> <a href="http://msg.cnblogs.com/send/%E5%90%B4%E5%BB%BA%E8%89%AF" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</h4>
+			<p>
+				</p><div id="comment_body_3527877" class="blog_comment_body"><div class="list"><table class="out" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="icontd" valign="bottom" align="right"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131202131125.png" width="70px" height="57px"></td><td class="q" valign="bottom" align="left"><table style="" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> <tr><td class="left"></td> <td class="conmts" align="left"><p>现在不让连接了。</p> </td> <td class="right"></td></tr> <tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> </tbody></table></td> </tr> </tbody></table> </div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3527877,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3527877,'Bury',this)">反对(0)</a></div><span id="comment_3527877_avatar" style="display:none;">http://pic.cnblogs.com/face/979196/20160621132140.png</span>
+				&nbsp;&nbsp;<span class="comment_actions"></span>
+			<p></p>
+		
+			<h4>
+				<a href="#3536589" class="layer">#12楼</a><a name="3536589" id="comment_anchor_3536589"></a>
+					<span>
+						 <span class="comment_date">2016-10-20 10:30</span>
+					</span>
+				<a id="a_comment_author_3536589" href="http://home.cnblogs.com/u/819625/" target="_blank">影灬子</a> <a href="http://msg.cnblogs.com/send/%E5%BD%B1%E7%81%AC%E5%AD%90" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</h4>
+			<p>
+				</p><div id="comment_body_3536589" class="blog_comment_body"><div class="list"><table class="out" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="icontd" valign="bottom" align="right"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131202131125.png" width="70px" height="57px"></td><td class="q" valign="bottom" align="left"><table style="" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> <tr><td class="left"></td> <td class="conmts" align="left"><p><a href="#3459599" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3459599);">@</a>
+小嫩<br>我也是报空指针。而且getWeather()这个方法怎么定义为static  我学习之前的不是不能发布静态方法吗<br>不是蛮懂</p> </td> <td class="right"></td></tr> <tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> </tbody></table></td> </tr> </tbody></table> </div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3536589,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3536589,'Bury',this)">反对(0)</a></div>
+				&nbsp;&nbsp;<span class="comment_actions"></span>
+			<p></p>
+		
+			<h4>
+				<a href="#3603216" class="layer">#13楼</a><a name="3603216" id="comment_anchor_3603216"></a>
+					<span>
+						 <span class="comment_date">2017-01-13 16:55</span>
+					</span>
+				<a id="a_comment_author_3603216" href="https://www.cnblogs.com/xunying/" target="_blank">寻影657</a> <a href="http://msg.cnblogs.com/send/%E5%AF%BB%E5%BD%B1657" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</h4>
+			<p>
+				</p><div id="comment_body_3603216" class="blog_comment_body"><div class="list"><table class="out" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="icontd" valign="bottom" align="right"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131202131125.png" width="70px" height="57px"></td><td class="q" valign="bottom" align="left"><table style="" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> <tr><td class="left"></td> <td class="conmts" align="left"><p>希望楼主后续继续更新webService与spring框架整合的内容</p> </td> <td class="right"></td></tr> <tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> </tbody></table></td> </tr> </tbody></table> </div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3603216,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3603216,'Bury',this)">反对(0)</a></div>
+				&nbsp;&nbsp;<span class="comment_actions"></span>
+			<p></p>
+		
+			<h4>
+				<a href="#3654629" class="layer">#14楼</a><a name="3654629" id="comment_anchor_3654629"></a>
+					<span>
+						 <span class="comment_date">2017-03-29 14:33</span>
+					</span>
+				<a id="a_comment_author_3654629" href="https://www.cnblogs.com/yidiandhappy/" target="_blank">每天进步一丶</a> <a href="http://msg.cnblogs.com/send/%E6%AF%8F%E5%A4%A9%E8%BF%9B%E6%AD%A5%E4%B8%80%E4%B8%B6" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</h4>
+			<p>
+				</p><div id="comment_body_3654629" class="blog_comment_body"><div class="list"><table class="out" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="icontd" valign="bottom" align="right"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131202131125.png" width="70px" height="57px"></td><td class="q" valign="bottom" align="left"><table style="" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> <tr><td class="left"></td> <td class="conmts" align="left"><p>非常感谢，very thank you ,两年后看，也是收获非常非常多，但是提供的链接已经不能用了，<a href="http://www.cnblogs.com/LIANQQ/archive/2013/05/10/3070943.html" target="_blank">http://www.cnblogs.com/LIANQQ/archive/2013/05/10/3070943.html</a>，这里面有好多还能用，再次感谢</p> </td> <td class="right"></td></tr> <tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> </tbody></table></td> </tr> </tbody></table> </div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3654629,'Digg',this)">支持(1)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3654629,'Bury',this)">反对(0)</a></div><span id="comment_3654629_avatar" style="display:none;">http://pic.cnblogs.com/face/886384/20170421172355.png</span>
+				&nbsp;&nbsp;<span class="comment_actions"></span>
+			<p></p>
+		
+			<h4>
+				<a href="#3820903" class="layer">#15楼</a><a name="3820903" id="comment_anchor_3820903"></a>
+					<span>
+						 <span class="comment_date">2017-10-25 11:34</span>
+					</span>
+				<a id="a_comment_author_3820903" href="http://home.cnblogs.com/u/1263089/" target="_blank">指尖de柔情</a> <a href="http://msg.cnblogs.com/send/%E6%8C%87%E5%B0%96de%E6%9F%94%E6%83%85" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</h4>
+			<p>
+				</p><div id="comment_body_3820903" class="blog_comment_body"><div class="list"><table class="out" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="icontd" valign="bottom" align="right"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131202131125.png" width="70px" height="57px"></td><td class="q" valign="bottom" align="left"><table style="" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> <tr><td class="left"></td> <td class="conmts" align="left"><p><a href="#3343258" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3343258);">@</a>
+fengjianyao<br><a href="http://webservice.webxml.com.cn/WebServices/MobileCodeWS.asmx" target="_blank">http://webservice.webxml.com.cn/WebServices/MobileCodeWS.asmx</a>  <br>改成：<br><a href="http://ws.webxml.com.cn/WebServices/MobileCodeWS.asmx" target="_blank">http://ws.webxml.com.cn/WebServices/MobileCodeWS.asmx</a> <br><br>webservice改成ws就可以了</p> </td> <td class="right"></td></tr> <tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> </tbody></table></td> </tr> </tbody></table> </div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3820903,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3820903,'Bury',this)">反对(0)</a></div>
+				&nbsp;&nbsp;<span class="comment_actions"></span>
+			<p></p>
+		
+			<h4>
+				<a href="#4038296" class="layer">#16楼</a><a name="4038296" id="comment_anchor_4038296"></a>
+					<span>
+						 <span class="comment_date">2018-08-08 17:49</span>
+					</span>
+				<a id="a_comment_author_4038296" href="http://home.cnblogs.com/u/1153787/" target="_blank">寒江雪2017</a> <a href="http://msg.cnblogs.com/send/%E5%AF%92%E6%B1%9F%E9%9B%AA2017" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</h4>
+			<p>
+				</p><div id="comment_body_4038296" class="blog_comment_body"><div class="list"><table class="out" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="icontd" valign="bottom" align="right"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131202131125.png" width="70px" height="57px"></td><td class="q" valign="bottom" align="left"><table style="" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> <tr><td class="left"></td> <td class="conmts" align="left"><p>非常感谢</p> </td> <td class="right"></td></tr> <tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> </tbody></table></td> </tr> </tbody></table> </div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4038296,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4038296,'Bury',this)">反对(0)</a></div>
+				&nbsp;&nbsp;<span class="comment_actions"></span>
+			<p></p>
+		
+			<h4>
+				<a href="#4049170" class="layer">#17楼</a><a name="4049170" id="comment_anchor_4049170"></a><span id="comment-maxId" style="display:none;">4049170</span><span id="comment-maxDate" style="display:none;">2018/8/23 16:08:57</span>
+					<span>
+						 <span class="comment_date">2018-08-23 16:08</span>
+					</span>
+				<a id="a_comment_author_4049170" href="http://home.cnblogs.com/u/1460605/" target="_blank">xzt1</a> <a href="http://msg.cnblogs.com/send/xzt1" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</h4>
+			<p>
+				</p><div id="comment_body_4049170" class="blog_comment_body"><div class="list"><table class="out" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="icontd" valign="bottom" align="right"><img src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131202131125.png" width="70px" height="57px"></td><td class="q" valign="bottom" align="left"><table style="" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> <tr><td class="left"></td> <td class="conmts" align="left"><p>那两个链接都访问不了，您能不能发一下源代码</p> </td> <td class="right"></td></tr> <tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> </tbody></table></td> </tr> </tbody></table> </div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4049170,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4049170,'Bury',this)">反对(0)</a></div>
+				&nbsp;&nbsp;<span class="comment_actions"></span>
+			<p></p>
+		
+</div><div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-工控')">【推荐】超50万VC++源码: 大型组态工控、电力仿真CAD与GIS源码库！</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="WebService%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(%E5%9B%9B)%E2%80%94%E2%80%94%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%90%E4%BE%9B%E7%9A%84webService%E6%9C%8D%E5%8A%A1%20-%20%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+<div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CLHtgK-p6t8CFcoqlgodytkCOA">
+<script>
+if(canShowAdsense()) {
+    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1546353474406-0'); });
+}
+</script>
+<div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="1" data-load-complete="true" width="300" height="250" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/fucktom/p/5335066.html" target="_blank" onclick="clickRecomItmem(5335066,'id7tyfcRwEOMTyLOisJhJNkJ6DzpvLaIzEP+Ywo4B67MyyUZ4vmDsP1AnjwMZgroZpMwKNfQPRFDhzSVEmLpa8kGGqFTcvTBBkBmfYo+bjWWrCWU5ByTLlIJAd0ChRqSVMv8IQy+YR2pBtw1m1M=')">WebService学习总结(二)——调用第三方提供的webService服务</a><br>·  <a href="https://www.cnblogs.com/suizhikuo/p/10030538.html" target="_blank" onclick="clickRecomItmem(10030538,'wIlNSm8QIUt4DYme/qi6tTH+1uqD1xWQs+hAOSzVH/2X3Smmqe7c+8OoCL1wG3CXSZfJcMYPnFuDq1h4z9Ge2xh00XSzOBtEWIfUbhTjvTt4EyZB9aK3vrD5eYCo6a+XuCQisq0pB6gpjtNwrWg=')">java调用第三方的webservice应用实例</a><br>·  <a href="https://www.cnblogs.com/h--d/p/7278206.html" target="_blank" onclick="clickRecomItmem(7278206,'znBHIZDFj6WFqwqjykugnLRs0dR0U2tTP0lDXGmGnbqXmLZixPLUBfjQkNGvEKAKST8t2cuW+dsJY5ngxSh9ZoUcryujXjk0I/urrjDvW0+g/yvfn2w/JISg98MlpU4t3nTfdM1M0S2BIpOpbY8=')">【WebService】调用第三方提供的webService服务（七）</a><br>·  <a href="https://www.cnblogs.com/raychenfj/archive/2013/05/03/3057043.html" target="_blank" onclick="clickRecomItmem(3057043,'yl+FScFtBOG7CksZnaNBFam9/k5GpuvgOk/xRtArNqc7HJuTPuiPJI67WXQVgMPgzoFQGDopGRgXT/i0WTA3nU7wVYl07+TR4l0Cv01zkWgl4rjTjZaTzqffsG4C9G8fn7utp5N165/GYLWHCiQ=')">SAP调用第三方WebService</a><br>·  <a href="https://www.cnblogs.com/yx007/p/5688464.html" target="_blank" onclick="clickRecomItmem(5688464,'nHFtMTNSUyArAcnhmzGxOCjznwFpyDxwCll+bbWNoHK5YoWno2Dv7fMxvd4bBWAYDtXAzTsPl75nAj/oPBdg0Lssh7+RqWqBZlYDqt6WfGsP0yfXhB7TOTuTEp9Qvzbh5gVNNpRF27YvJjayaqA=')">如何使用第三方webservice</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CMCl_66p6t8CFYSYlgodB5EJqw">
+    <script>
+    if(canShowAdsense()) {
+        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1539008685004-0'); });
+    }
+    </script>
+    <div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="2" data-load-complete="true" width="468" height="60" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/617204/" target="_blank">CES完蛋了吗？小厂产品无亮点 大厂产品记不住</a><br> ·  <a href="https://news.cnblogs.com/n/617203/" target="_blank">互联网人寒冬求职记：11个月后 他终于找到了工作</a><br> ·  <a href="https://news.cnblogs.com/n/617202/" target="_blank">“消失”的押金：ofo上千万用户等待退押金内幕</a><br> ·  <a href="https://news.cnblogs.com/n/617201/" target="_blank">售卖高价鞋垫引争议 丁香园：系医疗器械 资质齐全</a><br> ·  <a href="https://news.cnblogs.com/n/617200/" target="_blank">车和家李想：特斯拉加州经验难以直接复制到国内</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+</div>
+<div id="rightmenu">
+	
+		
+<div id="my_links">
+<h3>导航</h3>
+<ul>
+<li><a id="blog_nav_sitehome" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" href="https://www.cnblogs.com/xdp-gacl/">首页</a></li>
+<!--<li><a id="blog_nav_newpost" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>-->
+<li><a id="blog_nav_contact" rel="nofollow" href="https://msg.cnblogs.com/send/%E5%AD%A4%E5%82%B2%E8%8B%8D%E7%8B%BC">联系</a></li>
+<li><a id="blog_nav_rss" href="https://www.cnblogs.com/xdp-gacl/rss">订阅</a></li><!--<a id="blog_nav_rss_image" href="https://www.cnblogs.com/xdp-gacl/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>-->
+<li><a id="blog_nav_admin" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+</div>
+		<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2018/12/01');return false;">&lt;</a></td><td align="center">2019年1月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/02/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td class="CalWeekendDay" align="center">5</td></tr><tr><td class="CalWeekendDay" align="center">6</td><td align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td class="CalWeekendDay" align="center">12</td></tr><tr><td class="CalTodayDay" align="center">13</td><td align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td class="CalWeekendDay" align="center">19</td></tr><tr><td class="CalWeekendDay" align="center">20</td><td align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center">25</td><td class="CalWeekendDay" align="center">26</td></tr><tr><td class="CalWeekendDay" align="center">27</td><td align="center">28</td><td align="center">29</td><td align="center">30</td><td align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td></tr><tr><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+		
+<h3>公告</h3>
+<div class="newsItem">
+	<div id="blog-news"><script type="text/javascript">window['__document_write_ajax_callbacks__']['4']();</script><script>window['__document_write_ajax_callbacks__']['1']();</script>
+<div style="display: none" id="__document_write_ajax_div-2"></div><script>window['__document_write_ajax_callbacks__']['2']();</script><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/xdp-gacl/">孤傲苍狼</a><br>园龄：<a href="https://home.cnblogs.com/u/xdp-gacl/" title="入园时间：2011-04-05">7年9个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/xdp-gacl/followers/">16839</a><br>关注：<a href="https://home.cnblogs.com/u/xdp-gacl/followees/">92</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('f1774468-815f-e011-a53f-842b2b196315')">+加关注</a></div><script type="text/javascript">window['__document_write_ajax_callbacks__']['5']();</script><script>window['__document_write_ajax_callbacks__']['3']();</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>		
+		<div id="blog_stats">
+<div id="blog_stats">
+<h3>统计</h3>
+<ul>
+<li>随笔 - 275
+</li><li>文章 - 0
+</li><li>评论 - 3250
+<!--<li>引用 - 0-->
+</li>
+</ul>
+</div></div>
+		<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/xdp-gacl/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<h3 class="catListTitle">我的标签</h3>
+<div id="MyTag">
+<ul>
+<li><a href="https://www.cnblogs.com/xdp-gacl/tag/JavaWeb%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">JavaWeb学习总结</a>(63)</li><li><a href="https://www.cnblogs.com/xdp-gacl/tag/java%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/">java基础总结</a>(29)</li><li><a href="https://www.cnblogs.com/xdp-gacl/tag/Javascript%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">Javascript学习总结</a>(27)</li><li><a href="https://www.cnblogs.com/xdp-gacl/tag/Snmp%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">Snmp学习总结</a>(15)</li><li><a href="https://www.cnblogs.com/xdp-gacl/tag/MyEclipse%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/">MyEclipse使用总结</a>(13)</li><li><a href="https://www.cnblogs.com/xdp-gacl/tag/Android%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">Android开发学习总结</a>(13)</li><li><a href="https://www.cnblogs.com/xdp-gacl/tag/Maven%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">Maven学习总结</a>(12)</li><li><a href="https://www.cnblogs.com/xdp-gacl/tag/MySQL%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">MySQL学习总结</a>(9)</li><li><a href="https://www.cnblogs.com/xdp-gacl/tag/WebLogic%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/">WebLogic使用总结</a>(9)</li><li><a href="https://www.cnblogs.com/xdp-gacl/tag/NginX%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">NginX学习总结</a>(8)</li><li><a href="https://www.cnblogs.com/xdp-gacl/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+		<h3>随笔分类</h3>
+		
+				<ul>
+			
+				<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/xdp-gacl/category/431986.html">AJAX(2)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/xdp-gacl/category/663970.html">Android开发(12)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/xdp-gacl/category/431983.html">ASP.NET(2)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/xdp-gacl/category/431981.html">C#(8)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/xdp-gacl/category/647917.html">CSS学习总结</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/xdp-gacl/category/557089.html">C语言学习总结</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/xdp-gacl/category/605855.html">FusionCharts</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/xdp-gacl/category/641669.html">H2数据库学习使用总结(3)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/xdp-gacl/category/601788.html">Hessian(2)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/xdp-gacl/category/557131.html">Hibernate</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_10" href="https://www.cnblogs.com/xdp-gacl/category/602554.html">Highcharts</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_11" href="https://www.cnblogs.com/xdp-gacl/category/544383.html">HTML(1)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_12" href="https://www.cnblogs.com/xdp-gacl/category/791376.html">html5学习使用总结</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_13" href="https://www.cnblogs.com/xdp-gacl/category/647915.html">Html学习总结</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_14" href="https://www.cnblogs.com/xdp-gacl/category/431984.html">Java(13)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_15" href="https://www.cnblogs.com/xdp-gacl/category/431982.html">JavaScript(27)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_16" href="https://www.cnblogs.com/xdp-gacl/category/574705.html">JavaWeb学习总结(55)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_17" href="https://www.cnblogs.com/xdp-gacl/category/563691.html">Java基础加强总结(3)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_18" href="https://www.cnblogs.com/xdp-gacl/category/566451.html">java基础面试题(1)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_19" href="https://www.cnblogs.com/xdp-gacl/category/563690.html">java基础总结(28)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_20" href="https://www.cnblogs.com/xdp-gacl/category/595905.html">Java监控</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_21" href="https://www.cnblogs.com/xdp-gacl/category/607504.html">Java事务处理</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_22" href="https://www.cnblogs.com/xdp-gacl/category/600539.html">java字节码的处理技术</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_23" href="https://www.cnblogs.com/xdp-gacl/category/636007.html">JFinal学习研究</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_24" href="https://www.cnblogs.com/xdp-gacl/category/609326.html">JNDI(3)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_25" href="https://www.cnblogs.com/xdp-gacl/category/571424.html">Jquery EasyUI学习使用总结(7)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_26" href="https://www.cnblogs.com/xdp-gacl/category/600080.html">jwebap</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_27" href="https://www.cnblogs.com/xdp-gacl/category/599454.html">kafka</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_28" href="https://www.cnblogs.com/xdp-gacl/category/590574.html">LDAP</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_29" href="https://www.cnblogs.com/xdp-gacl/category/620197.html">Linux学习总结(1)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_30" href="https://www.cnblogs.com/xdp-gacl/category/544719.html">Maven(10)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_31" href="https://www.cnblogs.com/xdp-gacl/category/599453.html">Mina</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_32" href="https://www.cnblogs.com/xdp-gacl/category/655890.html">Mybatis(8)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_33" href="https://www.cnblogs.com/xdp-gacl/category/544414.html">MyEclipse(11)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_34" href="https://www.cnblogs.com/xdp-gacl/category/557132.html">MySQL(2)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_35" href="https://www.cnblogs.com/xdp-gacl/category/576035.html">Nginx(3)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_36" href="https://www.cnblogs.com/xdp-gacl/category/567838.html">Oracle学习使用总结</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_37" href="https://www.cnblogs.com/xdp-gacl/category/562877.html">PowerDesigner使用总结(5)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_38" href="https://www.cnblogs.com/xdp-gacl/category/640475.html">redis</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_39" href="https://www.cnblogs.com/xdp-gacl/category/591218.html">RESTful架构(1)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_40" href="https://www.cnblogs.com/xdp-gacl/category/649781.html">Servlet3.0(4)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_41" href="https://www.cnblogs.com/xdp-gacl/category/613358.html">Snmp学习总结(8)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_42" href="https://www.cnblogs.com/xdp-gacl/category/544380.html">Spring(3)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_43" href="https://www.cnblogs.com/xdp-gacl/category/654626.html">SpringMVC学习总结</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_44" href="https://www.cnblogs.com/xdp-gacl/category/543327.html">SQLServer(4)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_45" href="https://www.cnblogs.com/xdp-gacl/category/543338.html">Struts2(4)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_46" href="https://www.cnblogs.com/xdp-gacl/category/737796.html">SVN</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_47" href="https://www.cnblogs.com/xdp-gacl/category/544377.html">VB.NET(1)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_48" href="https://www.cnblogs.com/xdp-gacl/category/637206.html">WebLogic使用总结(8)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_49" href="https://www.cnblogs.com/xdp-gacl/category/629559.html">WebService学习总结(4)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_50" href="https://www.cnblogs.com/xdp-gacl/category/787823.html">WebSocket(1)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_51" href="https://www.cnblogs.com/xdp-gacl/category/554263.html">WinForm学习总结</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_52" href="https://www.cnblogs.com/xdp-gacl/category/602889.html">XML学习总结(2)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_53" href="https://www.cnblogs.com/xdp-gacl/category/551491.html">插件化开发</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_54" href="https://www.cnblogs.com/xdp-gacl/category/598077.html">创业知识(5)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_55" href="https://www.cnblogs.com/xdp-gacl/category/651090.html">大数据/hadoop(1)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_56" href="https://www.cnblogs.com/xdp-gacl/category/645953.html">代码注释(1)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_57" href="https://www.cnblogs.com/xdp-gacl/category/588156.html">单点登录(Yale_CAS_SSO)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_58" href="https://www.cnblogs.com/xdp-gacl/category/710266.html">电脑基本技能</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_59" href="https://www.cnblogs.com/xdp-gacl/category/636430.html">读书笔记</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_60" href="https://www.cnblogs.com/xdp-gacl/category/635429.html">负载均衡(1)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_61" href="https://www.cnblogs.com/xdp-gacl/category/543351.html">互联网基础(3)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_62" href="https://www.cnblogs.com/xdp-gacl/category/644775.html">缓存框架</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_63" href="https://www.cnblogs.com/xdp-gacl/category/801455.html">架构设计</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_64" href="https://www.cnblogs.com/xdp-gacl/category/661363.html">框架整合(1)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_65" href="https://www.cnblogs.com/xdp-gacl/category/810590.html">敏捷开发(1)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_66" href="https://www.cnblogs.com/xdp-gacl/category/1325914.html">区块链</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_67" href="https://www.cnblogs.com/xdp-gacl/category/591507.html">权限设计</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_68" href="https://www.cnblogs.com/xdp-gacl/category/431985.html">生活感悟(3)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_69" href="https://www.cnblogs.com/xdp-gacl/category/589802.html">数据库Sharding(1)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_70" href="https://www.cnblogs.com/xdp-gacl/category/562913.html">数据库理论基础(3)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_71" href="https://www.cnblogs.com/xdp-gacl/category/608526.html">微信开发(3)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_72" href="https://www.cnblogs.com/xdp-gacl/category/811446.html">我的开发框架</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_73" href="https://www.cnblogs.com/xdp-gacl/category/806539.html">项目管理(1)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_74" href="https://www.cnblogs.com/xdp-gacl/category/654566.html">英语学习</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_75" href="https://www.cnblogs.com/xdp-gacl/category/578277.html">原创小工具(1)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_76" href="https://www.cnblogs.com/xdp-gacl/category/594056.html">云计算(2)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_77" href="https://www.cnblogs.com/xdp-gacl/category/598078.html">哲学人生</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_78" href="https://www.cnblogs.com/xdp-gacl/category/596451.html">职场感悟(3)</a> </li>
+			
+				</ul>
+			
+	
+		<h3>随笔档案</h3>
+		
+				<ul>
+			
+				<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/xdp-gacl/archive/2016/04.html">2016年4月 (5)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/xdp-gacl/archive/2016/03.html">2016年3月 (5)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/xdp-gacl/archive/2016/02.html">2016年2月 (3)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_3" href="https://www.cnblogs.com/xdp-gacl/archive/2016/01.html">2016年1月 (2)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_4" href="https://www.cnblogs.com/xdp-gacl/archive/2015/07.html">2015年7月 (11)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_5" href="https://www.cnblogs.com/xdp-gacl/archive/2015/03.html">2015年3月 (12)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_6" href="https://www.cnblogs.com/xdp-gacl/archive/2015/02.html">2015年2月 (6)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_7" href="https://www.cnblogs.com/xdp-gacl/archive/2015/01.html">2015年1月 (40)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_8" href="https://www.cnblogs.com/xdp-gacl/archive/2014/12.html">2014年12月 (17)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_9" href="https://www.cnblogs.com/xdp-gacl/archive/2014/11.html">2014年11月 (12)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_10" href="https://www.cnblogs.com/xdp-gacl/archive/2014/10.html">2014年10月 (31)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_11" href="https://www.cnblogs.com/xdp-gacl/archive/2014/08.html">2014年8月 (10)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_12" href="https://www.cnblogs.com/xdp-gacl/archive/2014/07.html">2014年7月 (25)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_13" href="https://www.cnblogs.com/xdp-gacl/archive/2014/06.html">2014年6月 (6)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_14" href="https://www.cnblogs.com/xdp-gacl/archive/2014/05.html">2014年5月 (10)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_15" href="https://www.cnblogs.com/xdp-gacl/archive/2014/04.html">2014年4月 (22)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_16" href="https://www.cnblogs.com/xdp-gacl/archive/2014/03.html">2014年3月 (28)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_17" href="https://www.cnblogs.com/xdp-gacl/archive/2014/02.html">2014年2月 (11)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_18" href="https://www.cnblogs.com/xdp-gacl/archive/2014/01.html">2014年1月 (2)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_19" href="https://www.cnblogs.com/xdp-gacl/archive/2013/12.html">2013年12月 (16)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_20" href="https://www.cnblogs.com/xdp-gacl/archive/2012/11.html">2012年11月 (1)</a> </li>
+			
+				</ul>
+			
+	</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<h3 class="catListTitle">最新评论</h3>
+<div class="RecentComment" id="RecentComments">
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/xdp-gacl/p/4210558.html#4161341">1. Re:WebLogic使用总结(七)——WebLogic部署Web应用并绑定域名</a></li>
+        <li class="recent_comment_body">@hda从来没部署在域名上过，不了解~...</li>
+        <li class="recent_comment_author">--SupremeHover</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/xdp-gacl/p/4209985.html#4161339">2. Re:WebLogic使用总结(六)——WebLogic创建虚拟主机和修改启动端口号</a></li>
+        <li class="recent_comment_body">应该再详述一下怎么通过域名访问应用。</li>
+        <li class="recent_comment_author">--SupremeHover</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/xdp-gacl/p/4206154.html#4161338">3. Re:WebLogic使用总结(五)——Web项目使用Sigar在WebLogic服务器部署遇到的问题</a></li>
+        <li class="recent_comment_body">Sigar好熟悉，哈哈~</li>
+        <li class="recent_comment_author">--SupremeHover</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/xdp-gacl/p/4261895.html#4161321">4. Re:MyBatis学习总结(一)——MyBatis快速入门</a></li>
+        <li class="recent_comment_body">你好 专门找回密码来谢谢大神 有问题的朋友最好是看看自己代码有没有沾错 或者数据库jar包对不对 这个文章是mysql的 我用oracle就要自己找个oracle的jar</li>
+        <li class="recent_comment_author">--sdlkfjlsdkfj</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/xdp-gacl/p/4140683.html#4161125">5. Re:WebLogic使用总结(一)——WebLogic安装</a></li>
+        <li class="recent_comment_body">好强！</li>
+        <li class="recent_comment_author">--SupremeHover</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/xdp-gacl/p/3627390.html#4161058">6. Re:java基础学习总结——异常处理</a></li>
+        <li class="recent_comment_body">捕获了一场一定要处理，你不处理就像‘掩耳盗铃’</li>
+        <li class="recent_comment_author">--qy_qy</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/xdp-gacl/p/3628880.html#4161012">7. Re:java基础学习总结——面向对象2</a></li>
+        <li class="recent_comment_body">醍醐灌顶</li>
+        <li class="recent_comment_author">--qy_qy</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/xdp-gacl/p/3624100.html#4160982">8. Re:java基础学习总结——面向对象1</a></li>
+        <li class="recent_comment_body">great</li>
+        <li class="recent_comment_author">--qy_qy</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/xdp-gacl/p/3628220.html#4160949">9. Re:java基础学习总结——java环境变量配置</a></li>
+        <li class="recent_comment_body">跟着大神走</li>
+        <li class="recent_comment_author">--qy_qy</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/xdp-gacl/p/4271627.html#4160572">10. Re:MyBatis学习总结(八)——Mybatis3.x与Spring4.x整合</a></li>
+        <li class="recent_comment_body">mvn archetype:create -DgroupId=me.gacl -DartifactId=spring4-mybatis3 -DarchetypeArtifactId=maven-arc......</li>
+        <li class="recent_comment_author">--Joker_Batman</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<h3 class="catListTitle">阅读排行榜</h3>
+<div class="RecentComment" id="TopViewPosts"> 
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/xdp-gacl/p/4261895.html">1. MyBatis学习总结(一)——MyBatis快速入门(660691)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/3760336.html">2. javaweb学习总结(五)——Servlet开发(一)(520706)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/4200090.html">3. JavaWeb学习总结(五十)——文件上传和下载(444437)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/3729033.html">4. JavaWeb学习总结(一)——JavaWeb开发入门(299276)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/3855702.html">5. JavaWeb学习总结(十二)——Session(296310)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/4264440.html">6. MyBatis学习总结(五)——实现关联表查询(286936)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/3497016.html">7. MyEclipse使用总结——MyEclipse10安装SVN插件(277640)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/4322165.html">8. Android开发学习总结(一)——搭建最新版本的Android开发环境(261337)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/4097608.html">9. Linux下安装Tomcat服务器和部署Web应用(246274)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/3495887.html">10. Spring常用注解(243795)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<h3 class="catListTitle">评论排行榜</h3>
+<div class="RecentComment" id="TopCommentsPosts">
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/xdp-gacl/p/4200090.html">1. JavaWeb学习总结(五十)——文件上传和下载(175)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/4261895.html">2. MyBatis学习总结(一)——MyBatis快速入门(119)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/3760336.html">3. javaweb学习总结(五)——Servlet开发(一)(96)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/3902537.html">4. javaweb学习总结(二十二)——基于Servlet+JSP+JavaBean开发模式的用户登录注册(91)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/4271627.html">5. MyBatis学习总结(八)——Mybatis3.x与Spring4.x整合(78)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/4262895.html">6. MyBatis学习总结(二)——使用MyBatis对表执行CRUD操作(73)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/3729033.html">7. JavaWeb学习总结(一)——JavaWeb开发入门(73)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/4249939.html">8. 谈谈对Spring IOC的理解(68)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/3751277.html">9. javaweb学习总结(四)——Http协议(66)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/5294181.html">10. 创业公司一年工作总结(66)</a></li></ul></div>
+</div></div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div class="RecentComment">
+	<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/xdp-gacl/p/3760336.html">1. javaweb学习总结(五)——Servlet开发(一)(226)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/4261895.html">2. MyBatis学习总结(一)——MyBatis快速入门(188)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/3729033.html">3. JavaWeb学习总结(一)——JavaWeb开发入门(166)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/4200090.html">4. JavaWeb学习总结(五十)——文件上传和下载(146)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/4249939.html">5. 谈谈对Spring IOC的理解(126)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/3777987.html">6. Java基础学习总结——Java对象的序列化和反序列化(108)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/3789624.html">7. javaweb学习总结(七)——HttpServletResponse对象(一)(106)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/3902537.html">8. javaweb学习总结(二十二)——基于Servlet+JSP+JavaBean开发模式的用户登录注册(97)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/3751277.html">9. javaweb学习总结(四)——Http协议(91)</a></li><li><a href="https://www.cnblogs.com/xdp-gacl/p/3798347.html">10. javaweb学习总结(十)——HttpServletRequest对象(一)(91)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+        
+		
+<div id="footer">
+	Powered by: 
+	<br>
+	
+	<a id="Footer1_Hyperlink3" name="Hyperlink1" href="https://www.cnblogs.com/" style="font-family:Verdana;font-size:12px;">博客园</a>
+	<br>
+	Copyright © 孤傲苍狼
+</div>
+	
+</div>			
+			
+	
+
+<!--PageEndHtml Block Begin-->
+<!--评论，生成气泡效果标签代码-->
+<script type="text/javascript" language="javascript"> 
+    $(document).ready(function() {
+        var commentTime = setInterval(function(){if($("#comments_pager_bottom").length>0){CommentBubble();clearTimeout(commentTime);}},50);
+    }); 
+    function CommentBubble()
+    {
+var w1 = '<div class="list">' +
+        '<table class="out" border="0" cellspacing="0" cellpadding="0"> ' +
+            '<tr>' +
+                '<td class="icontd" align="right" valign="bottom">' +
+                    '<img src="http://pic.cnitblog.com/face/289233/20131202131125.png" width="70px" height="57px"/>' +
+                '</td>' +
+                '<td align="left" valign="bottom" class="q">' +
+                    '<table border="0" cellpadding="0" cellspacing="0" style=""> ' +
+                        '<tr><td class="topleft"></td><td class="top"></td><td class="topright"></td></tr> ' +
+                        '<tr><td class="left"></td> <td align="left" class="conmts"><p>';
+ 
+ 
+        var w2 = '</p> </td> <td class="right"></td></tr> ' +
+                        '<tr><td class="bottomleft"></td><td class="bottom"></td><td class="bottomright"></td></tr> ' +
+                    '</table>' +
+                '</td> ' +
+            '</tr> ' +
+        '</table> ' +
+    '</div>';
+ 
+        $.each($(".blog_comment_body"), function(i, t) {
+            $(t).html(w1 + $(t).html() + w2);
+        });
+$(".louzhu").closest(".feedbackItem").find(".out").removeClass("out").addClass("inc");
+        /*.find(".q").attr("align","right");*/
+        }
+</script>
+<!--PageEndHtml Block End-->
+
+
+<script type="text/javascript">
+window.tctipConfig = {
+staticPrefix: "http://static.tctip.com",
+cssPrefix: "http://static.tctip.com",
+buttonImageId: 2,
+buttonTip: "dashang",
+list:{
+alipay: {qrimg: "https://files.cnblogs.com/files/xdp-gacl/zhifubao.bmp"},
+weixin:{qrimg: "https://files.cnblogs.com/files/xdp-gacl/wechat.bmp"},
+}
+};
+</script><script type="text/javascript">getFollowStatus('f1774468-815f-e011-a53f-842b2b196315')</script><script type="text/javascript">
+  /*
+	功能：生成博客目录的JS工具
+	测试：IE8，火狐，google测试通过
+	孤傲苍狼
+	2014-5-11
+*/
+var BlogDirectory = {
+	/*
+		获取元素位置，距浏览器左边界的距离（left）和距浏览器上边界的距离（top）
+	*/
+	getElementPosition:function (ele) {        
+		var topPosition = 0;
+		var leftPosition = 0;
+		while (ele){              
+			topPosition += ele.offsetTop;
+			leftPosition += ele.offsetLeft;        
+			ele = ele.offsetParent;     
+		}  
+		return {top:topPosition, left:leftPosition}; 
+	},
+
+	/*
+	获取滚动条当前位置
+	*/
+	getScrollBarPosition:function () {
+		var scrollBarPosition = document.body.scrollTop || document.documentElement.scrollTop;
+		return  scrollBarPosition;
+	},
+	
+	/*
+	移动滚动条，finalPos 为目的位置，internal 为移动速度
+	*/
+	moveScrollBar:function(finalpos, interval) {
+
+		//若不支持此方法，则退出
+		if(!window.scrollTo) {
+			return false;
+		}
+
+		//窗体滚动时，禁用鼠标滚轮
+		window.onmousewheel = function(){
+			return false;
+		};
+		  
+		//清除计时
+		if (document.body.movement) { 
+			clearTimeout(document.body.movement); 
+		} 
+
+		var currentpos =BlogDirectory.getScrollBarPosition();//获取滚动条当前位置
+
+		var dist = 0; 
+		if (currentpos == finalpos) {//到达预定位置，则解禁鼠标滚轮，并退出
+			window.onmousewheel = function(){
+				return true;
+			}
+			return true; 
+		} 
+		if (currentpos < finalpos) {//未到达，则计算下一步所要移动的距离
+			dist = Math.ceil((finalpos - currentpos)/10); 
+			currentpos += dist; 
+		} 
+		if (currentpos > finalpos) { 
+			dist = Math.ceil((currentpos - finalpos)/10); 
+			currentpos -= dist; 
+		}
+		
+		var scrTop = BlogDirectory.getScrollBarPosition();//获取滚动条当前位置
+		window.scrollTo(0, currentpos);//移动窗口
+		if(BlogDirectory.getScrollBarPosition() == scrTop)//若已到底部，则解禁鼠标滚轮，并退出
+		{
+			window.onmousewheel = function(){
+				return true;
+			}
+			return true;
+		}
+		
+		//进行下一步移动
+		var repeat = "BlogDirectory.moveScrollBar(" + finalpos + "," + interval + ")"; 
+		document.body.movement = setTimeout(repeat, interval); 
+	},
+	
+	htmlDecode:function (text){
+		var temp = document.createElement("div");
+		temp.innerHTML = text;
+		var output = temp.innerText || temp.textContent;
+		temp = null;
+		return output;
+	},
+
+	/*
+	创建博客目录，
+	id表示包含博文正文的 div 容器的 id，
+	mt 和 st 分别表示主标题和次级标题的标签名称（如 H2、H3，大写或小写都可以！），
+	interval 表示移动的速度
+	*/
+	createBlogDirectory:function (id, mt, st, interval){
+		 //获取博文正文div容器
+		var elem = document.getElementById(id);
+		if(!elem) return false;
+		//获取div中所有元素结点
+		var nodes = elem.getElementsByTagName("*");
+		//创建博客目录的div容器
+		var divSideBar = document.createElement('DIV');
+		divSideBar.className = 'sideBar';
+		divSideBar.setAttribute('id', 'sideBar');
+		var divSideBarTab = document.createElement('DIV');
+		divSideBarTab.setAttribute('id', 'sideBarTab');
+		divSideBar.appendChild(divSideBarTab);
+		var h2 = document.createElement('H2');
+		divSideBarTab.appendChild(h2);
+		var txt = document.createTextNode('目录导航');
+		h2.appendChild(txt);
+		var divSideBarContents = document.createElement('DIV');
+		divSideBarContents.style.display = 'none';
+		divSideBarContents.setAttribute('id', 'sideBarContents');
+		divSideBar.appendChild(divSideBarContents);
+		//创建自定义列表
+		var dlist = document.createElement("dl");
+		divSideBarContents.appendChild(dlist);
+		var num = 0;//统计找到的mt和st
+		mt = mt.toUpperCase();//转化成大写
+		st = st.toUpperCase();//转化成大写
+		//遍历所有元素结点
+		for(var i=0; i<nodes.length; i++)
+		{
+			if(nodes[i].nodeName == mt|| nodes[i].nodeName == st)    
+			{
+				//获取标题文本
+				var nodetext = nodes[i].innerHTML.replace(/<\/?[^>]+>/g,"");//innerHTML里面的内容可能有HTML标签，所以用正则表达式去除HTML的标签
+				nodetext = nodetext.replace(/&nbsp;/ig, "");//替换掉所有的&nbsp;
+				nodetext = BlogDirectory.htmlDecode(nodetext);
+				//插入锚        
+				nodes[i].setAttribute("id", "blogTitle" + num);
+				var item;
+				switch(nodes[i].nodeName)
+				{
+					case mt:    //若为主标题 
+						item = document.createElement("dt");
+						break;
+					case st:    //若为子标题
+						item = document.createElement("dd");
+						break;
+				}
+				
+				//创建锚链接
+				var itemtext = document.createTextNode(nodetext);
+				item.appendChild(itemtext);
+				item.setAttribute("name", num);
+				item.onclick = function(){        //添加鼠标点击触发函数
+					var pos = BlogDirectory.getElementPosition(document.getElementById("blogTitle" + this.getAttribute("name")));
+					if(!BlogDirectory.moveScrollBar(pos.top, interval)) return false;
+				};            
+				
+				//将自定义表项加入自定义列表中
+				dlist.appendChild(item);
+				num++;
+			}
+		}
+		
+		if(num == 0) return false; 
+		/*鼠标进入时的事件处理*/
+		divSideBarTab.onmouseenter = function(){
+			divSideBarContents.style.display = 'block';
+		}
+		/*鼠标离开时的事件处理*/
+		divSideBar.onmouseleave = function() {
+			divSideBarContents.style.display = 'none';
+		}
+
+		document.body.appendChild(divSideBar);
+	}
+	
+};
+
+window.onload=function(){
+	/*页面加载完成之后生成博客目录*/
+	BlogDirectory.createBlogDirectory("cnblogs_post_body","h2","h3",20);
+}
+</script><iframe id="google_osd_static_frame_7047085668475" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe><div class="sideBar" id="sideBar"><div id="sideBarTab"><h2>目录导航</h2></div><div style="display: none;" id="sideBarContents"><dl><dt name="0">一、调用免费的web service获取天气预报信息</dt><dd name="1">1.1、找到提供天气预报信息的Webservice的网络地址</dd><dd name="2">1.2、客户端编码方式访问第三方提供的webService服务</dd><dt name="3">二、调用免费的web service查询国内手机号码归属地</dt><dd name="4">2.1、找到提供服务的Webservice的网络地址</dd><dd name="5">2.2、编写客户端访问调用WebService服务</dd></dl></div></div></body></html>
